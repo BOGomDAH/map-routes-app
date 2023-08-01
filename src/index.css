@@ -51,6 +51,10 @@ body,
   position: relative;
 }
 
+.ant-table-row {
+  cursor: pointer;
+}
+
 .selected-row .ant-table-cell {
   background: #b5ffb3 !important;
 }
