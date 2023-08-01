@@ -1,20 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const name = 'route'
+
+const initialState = {
+    data: null,
+    loading: false,
+    error: null,
+}
+
 const routeSlice = createSlice({
-    name: 'route',
-    initialState: {
-        selectedRoute: [[59.84660399, 30.29496392],[59.82934196, 30.42423701],[59.83567701, 30.38064206]],
-        positions: null
-    },
+    name,
+    initialState,
     reducers: {
-        setSelectedRoute: (state, action) => {
-            state.selectedRoute = action.payload;
+        fetchPositionsPending: (state,) => {
+            state.error = null;
+            state.loading = true;
         },
-        setPositions: (state, action) => {
-            state.positions = action.payload;
+        fetchPositionsSuccess: (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+        },
+        fetchPositionsFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
         }
     }
 });
 
-export const { setSelectedRoute, setPositions } = routeSlice.actions;
+export const { fetchPositionsPending, fetchPositionsSuccess, fetchPositionsFailure } = routeSlice.actions;
+
 export default routeSlice.reducer;

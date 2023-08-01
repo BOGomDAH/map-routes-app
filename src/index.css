@@ -28,7 +28,29 @@ body,
   width: 100vw;
 }
 
+.parentMap {
+  width: 100%;
+}
+
 .leaflet-container {
   height: 100vh;
   width: 100%;
+}
+
+.map__spin {
+  position: absolute;
+  z-index: 500;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 25%);
+}
+.map__container {
+  position: relative;
+}
+
+.selected-row .ant-table-cell {
+  background: #b5ffb3 !important;
 }

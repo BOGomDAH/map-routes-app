@@ -1,50 +1,54 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {FeatureGroup, MapContainer, Marker, Polyline, TileLayer, useMap} from "react-leaflet";
-import {customMarkerUserPos} from "../CustomMarker.js";
+import React, {useEffect, useRef} from 'react';
+import {FeatureGroup, MapContainer, Marker, Polyline, TileLayer} from "react-leaflet";
+import {customMarker} from "../MapUI/CustomMarker.js";
+import {useSelector} from "react-redux";
+import L from "leaflet";
+import {message} from "antd";
+import MapSpinner from "../MapSpinner/MapSpinner.jsx";
 
-// function SetView({coords}){
-//     const map = useMap()
-//     map.setView(coords)
-//
-//     return null
-// }
-
-const MapComponent = ({positions, center}) => {
-    const [zoom, setZoom] = useState(13);
+const MapComponent = () => {
+    const {data: positions, loading, error} = useSelector((state) => state.route);
     const mapRef = useRef(null)
 
-    const limeOptions = { color: 'lime' };
+    useEffect(() => {
+        fitBoundsToPositions()
+    }, [positions]);
 
     useEffect(() => {
+        if (error) {
+            message.error(error);
+        }
+    }, [error]);
+
+    const fitBoundsToPositions = () => {
         if (positions && positions.length > 0) {
             const bounds = L.latLngBounds(positions);
             const map = mapRef.current;
-            if (map) {
-                map.fitBounds(bounds);
-                setZoom(map.getZoom())
-            }
+            map.fitBounds(bounds)
         }
-    }, [positions]);
+    };
 
     return (
-        <MapContainer
-            ref={mapRef}
-            center={center}
-            zoom={zoom}
-            scrollWheelZoom={true}
-        >
-            <FeatureGroup>
-                {positions?.map((mark, i) => (
-                    <Marker key={i} position={mark} icon={customMarkerUserPos} />
-                ))}
-                <Polyline pathOptions={limeOptions} positions={positions} />
-            </FeatureGroup>
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {/*<SetView coords={center}/>*/}
-        </MapContainer>
+        <div className="map__container">
+            {loading && <MapSpinner/>}
+            <MapContainer
+                center={[50, 15]}
+                zoom={13}
+                ref={mapRef}
+                scrollWheelZoom={true}
+            >
+                {positions && (
+                    <FeatureGroup>
+                        {positions.map((mark, i) => (
+                            <Marker key={i} position={mark} icon={customMarker} />
+                        ))}
+                        <Polyline pathOptions={{ color: 'lime' }} positions={positions} />
+                    </FeatureGroup>
+                )}
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            </MapContainer>
+        </div>
     );
 };
-
-
 
 export default MapComponent;
