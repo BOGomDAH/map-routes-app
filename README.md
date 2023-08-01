@@ -1,8 +1,47 @@
-# React + Vite
+# Приложение по отображению маршрутов на карте
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Приложение предназначено для отображения маршрутов на карте на основе данных, полученных от OSRM API.
 
-Currently, two official plugins are available:
+## Установка и запуск с использованием Docker
+#### Убедитесь, что у вас установлен Docker
+1. Склонируйте репозиторий с помощью Git:
+```shell
+git clone https://github.com/BOGomDAH/map-routes-app.git
+cd map-routes-app
+```
+2. Соберите Docker-образ:
+```shell
+docker-compose build
+```
+3. Запустите контейнер из собранного образа:
+```shell
+docker-compose up
+```
+Приложение будет доступно на порту [4000](http://localhost:4000/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Установка и запуск без использования Docker
+
+1. Склонируйте репозиторий с помощью Git:
+```shell
+git clone https://github.com/BOGomDAH/map-routes-app.git
+cd map-routes-app
+```
+2. Установите зависимости
+```shell
+npm install
+```
+3. Запустите приложение
+```shell
+npm run dev
+```
+
+## Описание приложения
+Приложение позволяет отображать маршруты на карте, используя React-Leaflet и данные от OSRM API. Когда пользователь выбирает маршрут из таблицы, приложение отправляет запрос на OSRM API, чтобы получить координаты маршрута. После успешного запроса, координаты маршрута отображаются на карте.
+
+## Используемые технологии
+- React
+- Redux Toolkit
+- Redux Saga
+- Ant Design
+- React-Leaflet
+- OSRM API
